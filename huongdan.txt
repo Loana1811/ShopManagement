@@ -1,0 +1,26 @@
+USER(id = 7) kloan@example.com
+ADMIN (id =11) addmin@gmail.com
+MANAGE (id = 22) test@example.com
+
+1) Login :  http://localhost:8080/api/auth/login
+{ 
+  "email": "addmin@gmail.com",
+  "password": "123456"
+}
+
+
+2) Lấy hết thông tin người dùng : http://localhost:8080/api/admin/users
+
+3) Tạo người dùng : http://localhost:8080/api/admin/users
+{
+  "fullName": "TEST",
+  "email": "test@example.com",
+  "password": "123456",
+  "roles": ["MANAGE"]
+}
+
+
+4) DELETE người dùng : http://localhost:8080/api/admin/users/21
+
+5) Xem danh mục cả manage và admin sử dụng đúng 1 đườn link : http://localhost:8080/api/admin/categories
+
