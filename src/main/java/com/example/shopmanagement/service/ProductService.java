@@ -3,6 +3,10 @@ package com.example.shopmanagement.service;
 import com.example.shopmanagement.entity.Product;
 import com.example.shopmanagement.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,6 +56,20 @@ public class ProductService {
             return true;
         }).orElse(false);
     }
+    // 🔹 Phân trang, sắp xếp, tìm kiếm theo name và category
+    public Page<Product> getProducts(String name, Long categoryId, int page, int size, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
 
+        if ((name == null || name.isEmpty()) && categoryId == null) {
+            return productRepository.findAll(pageable);
+        } else if (categoryId == null) {
+            return productRepository.findByNameContainingIgnoreCase(name, pageable);
+        } else if (name == null || name.isEmpty()) {
+            return productRepository.findByCategoryId(categoryId, pageable);
+        } else {
+            return productRepository.findByNameContainingIgnoreCaseAndCategoryId(name, categoryId, pageable);
+        }
+    }
 
 }

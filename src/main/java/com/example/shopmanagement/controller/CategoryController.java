@@ -3,22 +3,25 @@ package com.example.shopmanagement.controller;
 import com.example.shopmanagement.entity.Category;
 import com.example.shopmanagement.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/api/admin/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
 
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGE')")
     @GetMapping
     public List<Category> getAllCategories() {
         return categoryService.findAll();
     }
+
 
     @PostMapping
     public Category createCategory(@RequestBody Category category) {
