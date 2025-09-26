@@ -4,6 +4,7 @@ import com.example.shopmanagement.entity.User;
 import com.example.shopmanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +26,18 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         u.setStatus(status);
         return userRepo.save(u);
+    }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Xóa quan hệ với Role trước
+        user.getRoles().clear();
+
+        // Xóa user
+        userRepo.delete(user);
     }
 }
 

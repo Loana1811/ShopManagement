@@ -1,5 +1,6 @@
 package com.example.shopmanagement.controller;
 
+import com.example.shopmanagement.dto.ShoppingCartRequest;
 import com.example.shopmanagement.entity.ShoppingCart;
 import com.example.shopmanagement.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class ShoppingCartController {
     public ResponseEntity<ShoppingCart> createCart(@RequestBody ShoppingCart cart) {
         return new ResponseEntity<>(cartService.createCart(cart), HttpStatus.CREATED);
     }
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<ShoppingCart> updateCart(@PathVariable Long id, @RequestBody ShoppingCart cartDetails) {
